@@ -1,0 +1,49 @@
+# Xcode projekt se generuje nástrojem XcodeGen:  xcodegen generate
+name: ScopeTarget
+options:
+  bundleIdPrefix: cz.scopetarget
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+packages:
+  HitCore:
+    path: Packages/HitCore
+
+targets:
+  ScopeTarget:
+    type: application
+    platform: iOS
+    sources:
+      - ScopeTarget
+    dependencies:
+      - package: HitCore
+    info:
+      path: ScopeTarget/Info.plist
+      properties:
+        CFBundleDisplayName: Scope Target
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSCameraUsageDescription: Kamera snímá terč přes dalekohled a vyhodnocuje zásahy.
+        NSLocalNetworkUsageDescription: Připojení k WiFi kameře u terče nebo na dalekohledu.
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+          NSAllowsLocalNetworking: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cz.scopetarget.app
+        TARGETED_DEVICE_FAMILY: "2"
+        SWIFT_VERSION: "5.0"
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_PREVIEWS: YES
+        CODE_SIGN_STYLE: Automatic

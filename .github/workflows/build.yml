@@ -1,0 +1,42 @@
+name: Build iPad app
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Testy výpočetního jádra
+        working-directory: Packages/HitCore
+        run: swift test
+
+      - name: Vygenerovat Xcode projekt
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Sestavit (bez podpisu)
+        run: |
+          xcodebuild \
+            -project ScopeTarget.xcodeproj \
+            -scheme ScopeTarget \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Zabalit nepodepsané IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/ScopeTarget.app Payload/
+          zip -qry ScopeTarget-unsigned.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ScopeTarget-unsigned-ipa
+          path: ScopeTarget-unsigned.ipa

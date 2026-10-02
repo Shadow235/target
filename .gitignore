@@ -1,0 +1,9 @@
+*.xcodeproj/
+build/
+.build/
+DerivedData/
+Payload/
+*.ipa
+xcuserdata/
+.DS_Store
+ScopeTarget/Info.plist
